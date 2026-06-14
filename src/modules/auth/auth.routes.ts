@@ -1,5 +1,7 @@
+import { AppError } from '../../errors';
 import { Elysia, t } from 'elysia';
 import { jwtPlugin } from '../../plugins/jwt';
+import { authMiddleware } from '../../middlewares/auth.middleware';
 import { 
     register, 
     login,
@@ -8,7 +10,6 @@ import {
     generateRefreshToken,
     refreshAccessToken 
 } from './auth.service';
-import { AppError, UnauthorizedError } from '../../errors';
 
 export const authRoutes = new Elysia({ prefix: '/auth' })
     .use(jwtPlugin)
@@ -32,7 +33,8 @@ export const authRoutes = new Elysia({ prefix: '/auth' })
     .post('/login', async ({ body, jwt }) => {
         const user = await login(body);
         const token = await jwt.sign({ userId: user.id });
-        return { user, token };
+        const refreshToken = await generateRefreshToken(user.id);
+        return { user, token, refreshToken };
     }, {
         body: t.Object({
             username: t.String(),
@@ -49,23 +51,16 @@ export const authRoutes = new Elysia({ prefix: '/auth' })
         })
     })
     //
-    .post('/logout-all', async ({ headers, jwt }) => {
-        const token = headers.authorization?.split(' ')[1];
-        if(!token) throw new UnauthorizedError();
-
-        const payload = await jwt.verify(token);
-        if(!payload) throw new UnauthorizedError();
-
-        const userId = payload.userId;
-
-        await logoutAll(userId as string);
+    .use(authMiddleware)
+    .post('/logout-all', async ({ user }) => {
+        await logoutAll(user.id);
         return { message: 'Todos os dispositivos foram desconectados!' };
     })
     //
     .post('/refresh', async ({ body, jwt }) => {
         const userId = await refreshAccessToken(body.refreshToken);
-        const refreshToken = await jwt.sign({ userId });
-        return { refreshToken }
+        const acessToken = await jwt.sign({ userId });
+        return { acessToken }
     }, {
         body: t.Object({
             refreshToken: t.String()

@@ -18,7 +18,7 @@ export const users = pgTable('users', {
     password:   text('password').notNull(),
     avatar:     varchar('avatar', { length: 255 }),
     createdAt:  timestamp('created_at').defaultNow(),
-    active:     boolean('active').default(true).notNull()
+    active:     boolean('active').default(false).notNull()
 });
 
 export const comments = pgTable('comments', {

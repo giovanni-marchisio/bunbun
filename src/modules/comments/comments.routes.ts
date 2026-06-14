@@ -1,10 +1,10 @@
 import { Elysia, t } from 'elysia';
-import { jwtPlugin } from '../../plugins/jwt';
-import { AppError, UnauthorizedError } from '../../errors';
+import { AppError } from '../../errors';
+import { authMiddleware } from '../../middlewares/auth.middleware';
 import { listComments, addComment, removeComment } from './comments.service';
 
 export const commentRoutes = new Elysia({ prefix: '/comments' })
-    .use(jwtPlugin)
+    .use(authMiddleware)
     .onError(({ error, set}) => {
         if (error instanceof AppError){
             set.status = error.status
@@ -23,16 +23,10 @@ export const commentRoutes = new Elysia({ prefix: '/comments' })
         })
     })
     //
-    .post('/', async ({ body, jwt, headers }) =>{
-        const token = headers.authorization?.split(' ')[1];
-        if (!token) throw new UnauthorizedError();
-
-        const payload = await jwt.verify(token);
-        if (!payload) throw new UnauthorizedError();
-
+    .post('/', async ({ user, body}) =>{
         return addComment({
             content: body.content,
-            authorId: payload.userId as string
+            authorId: user.id
         })
     }, {
         body: t.Object({
@@ -40,13 +34,7 @@ export const commentRoutes = new Elysia({ prefix: '/comments' })
         })
     })
     //
-    .delete('/:id', async ({ params, jwt, headers }) => {
-        const token = headers.authorization?.split(' ')[1];
-        if (!token) throw new UnauthorizedError();
-
-        const payload = await jwt.verify(token);
-        if (!payload) throw new UnauthorizedError();
-
-        await removeComment(params.id, payload.userId as string);
+    .delete('/:id', async ({ user, params }) => {
+        await removeComment(params.id, user.id);
         return { message: 'Comentário foi removido!'};
     })
