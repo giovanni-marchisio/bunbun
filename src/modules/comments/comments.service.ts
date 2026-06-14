@@ -1,11 +1,10 @@
-import { NotFoundError } from "elysia";
 import { 
     findComments, 
     findCommentById, 
     createComment, 
     softDeleteComment 
 } from "./comments.repository";
-import { UnauthorizedError } from "../../errors";
+import { UnauthorizedError, NotFoundError } from "../../errors";
 
 export async function listComments(cursor: string | null, limit: number){
     const items = await findComments(cursor, limit);

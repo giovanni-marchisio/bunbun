@@ -4,7 +4,6 @@ import {
     setUserActive,
     setReportStatus
 } from './admin.repository';
-import { NotFoundError } from 'elysia';
 
 export async function listUsers(){
     return findAllUsers();

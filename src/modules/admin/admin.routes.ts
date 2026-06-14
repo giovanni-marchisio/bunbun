@@ -10,7 +10,7 @@ import {
     dismissReport
 } from './admin.service';
 
-export const adminRoutes = new Elysia({ prefix: '/admin '})
+export const adminRoutes = new Elysia({ prefix: '/admin' })
     .use(adminMiddleware)
     .onError(({ error, set }) => {
         if (error instanceof AppError){

@@ -1,7 +1,7 @@
-import { NotFoundError } from 'elysia';
 import { db } from '../../db/client';
-import { users } from '../../db/schema';
 import { eq } from 'drizzle-orm';
+import { users } from '../../db/schema';
+import { NotFoundError } from '../../errors';
 
 export async function findUserById(id: string) {
     return db.query.users.findFirst({

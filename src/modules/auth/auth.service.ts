@@ -1,4 +1,6 @@
+import { randomUUIDv7 } from 'bun';
 import { hash, verify } from '@node-rs/argon2';
+import { ConflictError, UnauthorizedError } from '../../errors';
 import { 
     findUserByUsername, 
     createUser,
@@ -7,7 +9,7 @@ import {
     deleteRefreshToken,
     deleteAllUserRefreshTokens
  } from './auth.repository';
-import { AppError, ConflictError, UnauthorizedError } from '../../errors';
+
 
 export async function register(data: {
     username: string,
@@ -62,8 +64,7 @@ export async function login(data: {
 };
 
 export async function generateRefreshToken(userId: string){
-    const token = Buffer.from(crypto.getRandomValues(new Uint8Array(64)))
-        .toString('hex');
+    const token = randomUUIDv7();
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7); // Vou ver um jeito mais bonito de fazer isso aqui
 

@@ -1,5 +1,5 @@
-import { NotFoundError } from "elysia";
-import { findUserById, updateUser, softDeleteUser } from "./users.repository";
+import { NotFoundError } from '../../errors';
+import { findUserById, updateUser, softDeleteUser } from './users.repository';
 
 export async function getUser(id: string){
     const user = await findUserById(id);
