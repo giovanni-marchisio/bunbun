@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1780933367303,
-      "tag": "0000_lowly_reptil",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1781115678771,
-      "tag": "0001_nosy_bromley",
+      "when": 1781455165701,
+      "tag": "0000_funny_sabra",
       "breakpoints": true
     }
   ]
