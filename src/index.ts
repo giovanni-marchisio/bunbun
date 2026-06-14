@@ -5,6 +5,7 @@ import { jwtPlugin } from './plugins/jwt';
 import { authRoutes } from './modules/auth/auth.routes';
 import { usersRoutes } from './modules/users/users.routes';
 import { commentRoutes } from './modules/comments/comments.routes';
+import { adminRoutes } from './modules/admin/admin.routes';
 
 export const app = new Elysia()
     .use(jwtPlugin)
@@ -23,6 +24,7 @@ export const app = new Elysia()
     .use(authRoutes)
     .use(usersRoutes)
     .use(commentRoutes)
+    .use(adminRoutes)
     .listen(3000);
 
 console.log(`http://localhost:${app.server?.port}`);

@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import {
     pgTable,
     pgEnum,
@@ -47,3 +48,31 @@ export const refreshTokens = pgTable('refresh_tokens', {
   expiresAt: timestamp('expires_at').notNull(),
   createdAt: timestamp('created_at').defaultNow()
 });
+
+export const userRelations = relations(users, ({ many }) => ({
+    comments: many(comments),
+    reports: many(reports, { 
+        relationName: 'reporter' 
+    }),
+    refreshTokens: many(refreshTokens)
+}));
+
+export const commentsRelations = relations(comments, ({ one, many }) => ({
+    author: one(users, { 
+        fields: [ comments.authorId],
+        references: [users.id]
+    }),
+    reports: many(reports)
+}));
+
+export const reportsRelations = relations(reports, ({ one }) => ({
+    comment: one(comments, { 
+        fields: [reports.commentId],
+        references: [comments.id]
+    }),
+    reporter: one(users, {
+        fields: [reports.reportedBy],
+        references: [users.id],
+        relationName: 'reporter'
+    })
+}));
