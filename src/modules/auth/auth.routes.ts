@@ -59,8 +59,8 @@ export const authRoutes = new Elysia({ prefix: '/auth' })
     //
     .post('/refresh', async ({ body, jwt }) => {
         const userId = await refreshAccessToken(body.refreshToken);
-        const acessToken = await jwt.sign({ userId });
-        return { acessToken }
+        const accessToken = await jwt.sign({ userId });
+        return { accessToken }
     }, {
         body: t.Object({
             refreshToken: t.String()
