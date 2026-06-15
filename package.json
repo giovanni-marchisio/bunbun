@@ -12,7 +12,8 @@
   },
   "scripts": {
     "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts"
+    "start": "bun run src/index.ts",
+    "admin": "bun run scripts/seed.ts"
   },
   "peerDependencies": {
     "typescript": "^5"
