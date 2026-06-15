@@ -6,6 +6,7 @@ import { authRoutes } from './modules/auth/auth.routes';
 import { usersRoutes } from './modules/users/users.routes';
 import { commentRoutes } from './modules/comments/comments.routes';
 import { adminRoutes } from './modules/admin/admin.routes';
+import { reportRoutes } from './modules/reports/reports.routes';
 
 export const app = new Elysia()
     .use(jwtPlugin)
@@ -24,6 +25,7 @@ export const app = new Elysia()
     .use(authRoutes)
     .use(usersRoutes)
     .use(commentRoutes)
+    .use(reportRoutes)
     .use(adminRoutes)
     .listen(3000);
 
