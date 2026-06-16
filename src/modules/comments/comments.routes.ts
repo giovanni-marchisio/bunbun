@@ -4,7 +4,6 @@ import { authMiddleware } from '../../middlewares/auth.middleware';
 import { listComments, addComment, removeComment } from './comments.service';
 
 export const commentRoutes = new Elysia({ prefix: '/comments' })
-    .use(authMiddleware)
     .onError(({ error, set}) => {
         if (error instanceof AppError){
             set.status = error.status
@@ -23,6 +22,7 @@ export const commentRoutes = new Elysia({ prefix: '/comments' })
         })
     })
     //
+    .use(authMiddleware)
     .post('/', async ({ user, body}) =>{
         return addComment({
             content: body.content,

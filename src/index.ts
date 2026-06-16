@@ -11,7 +11,10 @@ import { reportRoutes } from './modules/reports/reports.routes';
 export const app = new Elysia()
     .use(jwtPlugin)
     .use(cors({
-        origin: ['http://localhost:5173']
+        origin: [
+            'http://localhost:5173',
+            'http://127.0.0.1:5500'
+        ]
     }))
     .use(rateLimit({
         max: 60,

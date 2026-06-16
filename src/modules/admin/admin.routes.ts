@@ -27,21 +27,21 @@ export const adminRoutes = new Elysia({ prefix: '/admin' })
         await activateUser(params.id);
         return { message: `Usuário ativado\nID:${params.id}`};
     })
-    .patch('users/:id/deactivate', async ({ params }) => {
+    .patch('/users/:id/deactivate', async ({ params }) => {
         await deactivateUser(params.id);
         return { message: `Usuário desativado\nID:${params.id}`};
     })
     //
-    .get('reports', async() => {
+    .get('/reports', async() => {
         return listReports();
     })
     //
-    .patch('reports/:id/resolve', async ({ params }) => {
+    .patch('/reports/:id/resolve', async ({ params }) => {
         await resolveReport(params.id);
         return { message: `Denúncia resolvida!\nID:${params.id}`}
     })
     //
-    .patch('reports/:id/dismiss', async ({ params}) => {
+    .patch('/reports/:id/dismiss', async ({ params}) => {
         await dismissReport(params.id);
         return { message: `Denúncia descartada!\nID:${params.id}`}
     })

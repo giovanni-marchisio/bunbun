@@ -5,7 +5,9 @@ import { UnauthorizedError } from '../errors';
 
 export const authMiddleware = new Elysia()
     .use(jwtPlugin)
-    .derive({ as: 'scoped' }, async ({ headers, jwt }) => {
+    .derive(async ({ headers, jwt }) => {
+        console.log('authMiddleware executando')
+        console.log('token:', headers.authorization)
         const token = headers.authorization?.split(' ')[1];
         if (!token) throw new UnauthorizedError();
 
@@ -19,3 +21,4 @@ export const authMiddleware = new Elysia()
 
         return { user };
     })
+    .as('scoped'); // Eu deveria aprender a ler documentação igual gente
