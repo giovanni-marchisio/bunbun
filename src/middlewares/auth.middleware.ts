@@ -6,8 +6,7 @@ import { UnauthorizedError } from '../errors';
 export const authMiddleware = new Elysia()
     .use(jwtPlugin)
     .derive(async ({ headers, jwt }) => {
-        console.log('authMiddleware executando')
-        console.log('token:', headers.authorization)
+
         const token = headers.authorization?.split(' ')[1];
         if (!token) throw new UnauthorizedError();
 
