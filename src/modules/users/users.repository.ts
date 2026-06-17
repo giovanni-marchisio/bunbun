@@ -10,8 +10,8 @@ export async function findUserById(id: string) {
 };
 
 export async function updateUser(id: string, data: {
-    // username?: string, Deixar sem opção de editar username por enquanto
-    avatar?: string
+    username?: string
+    // avatar?: string
 }) {
     const [user] = await db.update(users)
         .set(data)

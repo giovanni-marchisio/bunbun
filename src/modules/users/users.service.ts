@@ -10,8 +10,8 @@ export async function getUser(id: string){
 };
 
 export async function editUser(id: string, data: {
-    // username?: string,
-    avatar?: string
+     username?: string
+    // avatar?: string
 }) {
     const user = await findUserById(id);
     if (!user) throw new NotFoundError('Usuário não encontrado!');
