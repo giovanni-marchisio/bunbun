@@ -12,8 +12,8 @@ export const app = new Elysia()
     .use(jwtPlugin)
     .use(cors({
         origin: [
-            'http://localhost:5173',
-            'http://127.0.0.1:5500'
+            process.env.FRONTEND_URL!,
+            process.env.LOCAL_URL!
         ]
     }))
     .use(rateLimit({
